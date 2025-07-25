@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, redirect, request
-from app.models import url_mappings, click_counts, URLMapping
+from app.models import url_mappings, click_counts, URLMapping , url_lock, click_lock
 from app.utils import generate_short_code, is_valid_url
-
 app = Flask(__name__)
 
 # Health checks (already provided)
@@ -22,9 +21,13 @@ def shorten_url():
     if not original_url or not is_valid_url(original_url):
         return jsonify({"error": "Invalid URL"}), 400
 
-    short_code = generate_short_code()
-    url_mappings[short_code] = URLMapping(original_url, short_code)
-    click_counts[short_code] = 0
+    # Thread-safe short code generation
+    with url_lock:
+        short_code = generate_short_code()
+        while short_code in url_mappings:  # Ensure uniqueness
+            short_code = generate_short_code()
+        url_mappings[short_code] = URLMapping(original_url, short_code)
+        click_counts[short_code] = 0
 
     return jsonify({
         "short_code": short_code,
@@ -36,7 +39,10 @@ def redirect_to_original(short_code):
     if short_code not in url_mappings:
         return jsonify({"error": "Short code not found"}), 404
 
-    click_counts[short_code] += 1
+    # Thread-safe click increment
+    with click_lock:
+        click_counts[short_code] += 1
+
     return redirect(url_mappings[short_code].original_url)
 
 @app.route('/api/stats/<short_code>')

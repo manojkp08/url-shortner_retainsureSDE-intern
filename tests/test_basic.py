@@ -14,13 +14,13 @@ def test_health_check(client):
     assert b"healthy" in response.data
 
 def test_shorten_url(client):
-    response = client.post('/api/shorten', json={"url": "https://example.com"})
+    response = client.post('/api/shorten', json={"url": "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/"})
     assert response.status_code == 201
     assert "short_code" in response.json
 
 def test_redirect(client):
     # First shorten a URL
-    shorten_resp = client.post('/api/shorten', json={"url": "https://example.com"})
+    shorten_resp = client.post('/api/shorten', json={"url": "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/"})
     short_code = shorten_resp.json["short_code"]
 
     # Test redirect
@@ -32,9 +32,11 @@ def test_invalid_url(client):
     assert response.status_code == 400
 
 def test_stats(client):
-    shorten_resp = client.post('/api/shorten', json={"url": "https://example.com"})
+    shorten_resp = client.post('/api/shorten', json={"url": "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/"})
     short_code = shorten_resp.json["short_code"]
 
     stats_resp = client.get(f'/api/stats/{short_code}')
     assert stats_resp.status_code == 200
     assert stats_resp.json["clicks"] == 0  # No clicks yet
+
+

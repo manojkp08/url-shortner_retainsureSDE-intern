@@ -1,14 +1,11 @@
-# TODO: Implement your data models here
-# Consider what data structures you'll need for:
-# - Storing URL mappings
-# - Tracking click counts
-# - Managing URL metadata
-
 from datetime import datetime
+from threading import Lock
 
-# In-memory "database"
+# Shared resources with locks
 url_mappings = {}
 click_counts = {}
+url_lock = Lock()  # For URL creation
+click_lock = Lock()  # For click tracking
 
 class URLMapping:
     def __init__(self, original_url, short_code):
