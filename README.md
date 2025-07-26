@@ -22,8 +22,8 @@ A lightweight, Flask-based URL shortener service with analytics and thread-safe 
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd url-shortener
+git clone https://github.com/manojkp08/url-shortner_retainsureSDE-intern.git
+cd url-shortner_retainsureSDE-intern
 ```
 
 2. Install dependencies:
@@ -44,19 +44,19 @@ The API will be available at `http://localhost:5000`
 Create a short URL from a long URL.
 
 ```http
-POST /api/shorten
+POST http://localhost:5000/api/shorten
 Content-Type: application/json
 
 {
-  "url": "https://example.com"
+  "url": "https://www.nvidia.com/en-us/geforce/campaigns/back-to-school/?nvid=nv-int-drvr-637258"
 }
 ```
 
 **Response:**
 ```json
 {
-  "short_code": "abc123",
-  "short_url": "http://localhost:5000/abc123"
+  "short_code": "xyh635",
+  "short_url": "http://localhost:5000/xyh635"
 }
 ```
 
@@ -64,7 +64,9 @@ Content-Type: application/json
 Redirect to the original URL using the short code.
 
 ```http
-GET /<short_code>
+GET http://localhost:5000/<short_code>
+example:
+GET http://localhost:5000/xyh635
 ```
 
 Returns a 302 redirect to the original URL.
@@ -73,14 +75,16 @@ Returns a 302 redirect to the original URL.
 View click analytics for a shortened URL.
 
 ```http
-GET /api/stats/<short_code>
+GET http://localhost:5000/api/stats/<short_code>
+example:
+GET http://localhost:5000/api/stats/xyh635
 ```
 
 **Response:**
 ```json
 {
-  "short_code": "abc123",
-  "original_url": "https://example.com",
+  "short_code": "xyh635",
+  "original_url": "https://www.nvidia.com/en-us/geforce/campaigns/back-to-school/?nvid=nv-int-drvr-637258",
   "click_count": 15
 }
 ```
@@ -90,16 +94,17 @@ GET /api/stats/<short_code>
 ### Using cURL
 
 ```bash
-# Shorten a URL
+#Step-1 Shorten a URL
 curl -X POST http://localhost:5000/api/shorten \
   -H "Content-Type: application/json" \
-  -d '{"url":"https://example.com"}'
+  -d '{"url":"https://www.nvidia.com/en-us/geforce/campaigns/back-to-school/?nvid=nv-int-drvr-637258"}'
 
-# Follow redirect (browser or CLI)
-curl -L http://localhost:5000/abc123
+#Step-2 Follow redirect (browser or CLI)
+curl -L http://localhost:5000/<short-code>
+**NOTE - Replace the <short-code> with the actual code once you get it in the 1st step. ex - xyh635
 
-# Get click statistics
-curl http://localhost:5000/api/stats/abc123
+#Step-3 Get click statistics
+curl http://localhost:5000/api/stats/xyh635
 ```
 
 ## Testing
