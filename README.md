@@ -91,20 +91,81 @@ GET http://localhost:5000/api/stats/xyh635
 
 ## Usage Examples
 
-### Using cURL
+# URL Shortener API Commands
 
+## For Mac/Linux
+
+### Step 1: Shorten a URL
 ```bash
-#Step-1 Shorten a URL
 curl -X POST http://localhost:5000/api/shorten \
   -H "Content-Type: application/json" \
   -d '{"url":"https://www.nvidia.com/en-us/geforce/campaigns/back-to-school/?nvid=nv-int-drvr-637258"}'
+```
 
-#Step-2 Follow redirect (browser or CLI)
+### Step 2: Follow redirect (browser or CLI)
+```bash
 curl -L http://localhost:5000/<short-code>
-**NOTE - Replace the <short-code> with the actual code once you get it in the 1st step. ex - xyh635
+```
+**NOTE:** Replace `<short-code>` with the actual code from Step 1 (e.g., `xyh635`)
 
-#Step-3 Get click statistics
+### Step 3: Get click statistics
+```bash
 curl http://localhost:5000/api/stats/xyh635
+```
+
+---
+
+## For Windows (Command Prompt)
+
+### Step 1: Shorten a URL
+```cmd
+curl -X POST http://localhost:5000/api/shorten ^
+  -H "Content-Type: application/json" ^
+  -d "{\"url\":\"https://www.nvidia.com/en-us/geforce/campaigns/back-to-school/?nvid=nv-int-drvr-637258\"}"
+```
+
+### Step 2: Follow redirect (browser or CLI)
+```cmd
+curl -L http://localhost:5000/<short-code>
+```
+**NOTE:** Replace `<short-code>` with the actual code from Step 1 (e.g., `xyh635`)
+
+### Step 3: Get click statistics
+```cmd
+curl http://localhost:5000/api/stats/xyh635
+```
+
+---
+
+## For Windows (PowerShell)
+
+### Step 1: Shorten a URL
+```powershell
+curl -X POST http://localhost:5000/api/shorten `
+  -H "Content-Type: application/json" `
+  -d '{"url":"https://www.nvidia.com/en-us/geforce/campaigns/back-to-school/?nvid=nv-int-drvr-637258"}'
+```
+
+### Step 2: Follow redirect (browser or CLI)
+```powershell
+curl -L http://localhost:5000/<short-code>
+```
+**NOTE:** Replace `<short-code>` with the actual code from Step 1 (e.g., `xyh635`)
+
+### Step 3: Get click statistics
+```powershell
+curl http://localhost:5000/api/stats/xyh635
+```
+
+---
+
+## Key Differences
+
+- **Mac/Linux**: Uses backslash `\` for line continuation and single quotes for JSON
+- **Windows CMD**: Uses caret `^` for line continuation and escaped double quotes `\"` for JSON
+- **Windows PowerShell**: Uses backtick `` ` `` for line continuation and single quotes for JSON (similar to Mac/Linux)
+
+
 ```
 
 ## Testing
